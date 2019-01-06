@@ -11,8 +11,11 @@ public class Config {
     public static void main(String[] args) {
         ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 
+        Object hello = context.getBean("hello");
+        System.out.println("hello = " + hello);
         DemoBean bean = context.getBean(DemoBean.class);
 
+        DemoBean bean1 = context.getBean(DemoBean.class);
         System.out.println("bean = " + bean);
     }
 }

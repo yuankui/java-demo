@@ -5,7 +5,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class XmlConfig {
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("beanpostprocessor/config.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("/beanpostprocessor/config.xml");
 
         System.out.println("context = " + context);
     }
