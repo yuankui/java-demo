@@ -1,4 +1,4 @@
-package com.yuankui.java.test.javademo.customaop.demo;
+package com.yuankui.java.test.javademo.customaop;
 
 import com.yuankui.java.test.javademo.customaop.Fetcher;
 import com.yuankui.java.test.javademo.customaop.core.Advice;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Aspect(cls = Fetcher.class, method = "fetch")
 @Component
-public class DemoAdvice implements Advice {
+public class Advice1 implements Advice {
 
     @Override
     public Object process(JoinPoint joinPoint) {
