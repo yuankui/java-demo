@@ -11,7 +11,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Import(Config.class)
+@Import(AopConfig.class)
 public class FetcherTest {
 
     @Autowired
