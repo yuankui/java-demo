@@ -11,6 +11,10 @@ public class AdviceAdapter {
     private final Class clazz;
     private Advice advice;
 
+    /**
+     * 解析注解中的class，method
+     * @param advice
+     */
     public AdviceAdapter(Advice advice) {
         this.advice = advice;
         Aspect aspect = advice.getClass().getAnnotation(Aspect.class);
@@ -36,6 +40,7 @@ public class AdviceAdapter {
     }
     public Object wrap(Object object) {
         InvocationHandler handler = (proxy, method, args) -> {
+            // 代理的调用要经过advice对象封装，当前前提是方法名要匹配
             if (method.equals(this.method)) {
                 return advice.process(() -> {
                     try {
@@ -45,6 +50,7 @@ public class AdviceAdapter {
                     }
                 });
             } else {
+                // 方法名不匹配，就直接退出
                 return method.invoke(object, args);
             }
         };
