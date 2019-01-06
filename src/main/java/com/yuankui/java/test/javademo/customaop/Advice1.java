@@ -1,6 +1,5 @@
 package com.yuankui.java.test.javademo.customaop;
 
-import com.yuankui.java.test.javademo.customaop.Fetcher;
 import com.yuankui.java.test.javademo.customaop.core.Advice;
 import com.yuankui.java.test.javademo.customaop.core.Aspect;
 import com.yuankui.java.test.javademo.customaop.core.JoinPoint;
