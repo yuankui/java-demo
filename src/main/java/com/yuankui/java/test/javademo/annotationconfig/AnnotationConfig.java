@@ -11,7 +11,9 @@ import org.springframework.context.annotation.Configuration;
 public class AnnotationConfig {
     @Bean
     public Bean1 bean1() {
-        return new Bean1();
+        Bean1 bean1 = new Bean1();
+        bean1.init();
+        return bean1;
     }
 
     public static void main(String[] args) {
