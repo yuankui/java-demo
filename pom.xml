@@ -44,6 +44,11 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.2.36</version>
 		</dependency>
+		<dependency> <!-- use a specific Groovy version rather than the one specified by spock-core -->
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>2.4.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
