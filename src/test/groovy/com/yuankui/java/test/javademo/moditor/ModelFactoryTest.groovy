@@ -39,7 +39,5 @@ model.root model.object() {
         script.run()
 
         println "modelFactory = ${modelFactory.json()}"
-        
-        
     }
 }
