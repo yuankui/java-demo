@@ -1,15 +1,34 @@
-package com.yuankui.java.test.javademo.moditor;
+package com.yuankui.java.test.javademo.moditor
 
-import groovy.lang.GroovyShell;
-import org.junit.Test;
 
-import static org.junit.Assert.*;
+import org.junit.Test
 
-public class ModelFactoryTest {
+class ModelFactoryTest {
     
     @Test
-    public void test() {
+    void test() {
+        def scriptStr = """
+
+regex_model = model.object() {
+    field 'field', model.string()
+    field 'value', model.string()
+}
+model.root model.object() {
+    field 'name', model.string()
+    field 'age', model.number()
+    field 'filter', regex_model
+}
+
+"""
+        def script = new GroovyShell().parse(scriptStr)
+        Binding binding = new Binding()
+        ModelFactory modelFactory = new ModelFactory()
+        binding.setVariable("model", modelFactory)
+
         
-        new GroovyShell().parse()
+        script.setBinding(binding)
+        script.run()
+
+        println "modelFactory = $modelFactory"
     }
 }
