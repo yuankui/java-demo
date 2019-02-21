@@ -29,6 +29,8 @@ model.root model.object() {
         script.setBinding(binding)
         script.run()
 
-        println "modelFactory = $modelFactory"
+        println "modelFactory = ${modelFactory.json()}"
+        
+        
     }
 }

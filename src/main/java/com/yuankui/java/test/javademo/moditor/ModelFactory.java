@@ -1,5 +1,6 @@
 package com.yuankui.java.test.javademo.moditor;
 
+import com.alibaba.fastjson.JSON;
 import com.yuankui.java.test.javademo.moditor.factory.Model;
 import com.yuankui.java.test.javademo.moditor.factory.ModelNumber;
 import com.yuankui.java.test.javademo.moditor.factory.ModelObject;
@@ -30,6 +31,10 @@ public class ModelFactory extends GroovyObjectSupport {
     
     public void root(Model model) {
         root = model;
+    }
+    
+    public String json() {
+        return JSON.toJSONString(root.toJSON());
     }
 
 }
