@@ -15,7 +15,8 @@ public class FlatmapIterator<T> implements Iterator<T> {
 
     @Override
     public boolean hasNext() {
-        if (flatted.hasNext()) {
+        
+        if (flatted != null && flatted.hasNext()) {
             return true;
         }
 

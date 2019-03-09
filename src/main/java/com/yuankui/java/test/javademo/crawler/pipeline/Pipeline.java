@@ -15,7 +15,7 @@ public class Pipeline<T> {
     private PluginFactory pluginFactory;
 
     private Input<T, ?> input;
-    private List<Filter<T, ?>> filters;
+    private List<Filter> filters;
     private Output<T, ?> output;
     
     public void init(String yaml) {
@@ -32,9 +32,9 @@ public class Pipeline<T> {
     
     public void run() {
         Dataset<T> items = input.getItems();
-        for (Filter<T, ?> filter : this.filters) {
+        for (Filter filter : this.filters) {
             items = items.flatMap(item -> filter.filter(item));
         }
-        items.forEach(output::output);
+        items.foreach(output::output);
     }
 }
