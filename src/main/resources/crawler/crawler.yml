@@ -7,15 +7,17 @@ filter:
   - type: DeepUrlFilter
   - type: RegexUrlFilter
     config: /member/\w+
-  - type: CountUrlFilter
-    config: 100
+#  - type: CountUrlFilter
+#    config: 100
   - type: GroovyFilter
     config: |
       return {
         context ->
-          println("context: ${context.url}")
+          if (context.url.startswith('')) {
+            return false
+          }
       }
 output:
-#  - type: UrlOutput
+  - type: UrlOutput
   - type: ConsoleOutput
   
