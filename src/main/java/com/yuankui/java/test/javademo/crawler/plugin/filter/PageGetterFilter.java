@@ -11,6 +11,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Prototype
@@ -18,20 +19,22 @@ import java.util.stream.Collectors;
 public class PageGetterFilter implements Filter<Context, Object> {
     @Override
     public Dataset<Context> filter(Dataset<Context> dataset) {
-        return dataset.flatMap(context -> {
-            Document document;
-            try {
-                log.info("get url: {}", context.getSrcUrl());
-                document = Jsoup.connect(context.getSrcUrl()).get();
-            } catch (IOException e) {
-                log.warn("get url failed: {}", context.getSrcUrl(), e);
-                return Collections.emptyList();
-            }
-            Elements elements = document.select("a");
-            return elements.stream()
-                    .map(e -> e.attr("href"))
-                    .map(u -> new Context(context.getSrcDeep(), context.getSrcUrl(), u, document.outerHtml()))
-                    .collect(Collectors.toList());
-        });
+        return dataset.flatMap(this::crawl);
+    }
+    
+    private List<Context> crawl(Context context) {
+        Document document;
+        try {
+            log.info("get url: {}", context.getSrcUrl());
+            document = Jsoup.connect(context.getSrcUrl()).get();
+        } catch (IOException e) {
+            log.warn("get url failed: {}", context.getSrcUrl(), e);
+            return Collections.emptyList();
+        }
+        Elements elements = document.select("a");
+        return elements.stream()
+                .map(e -> e.attr("href"))
+                .map(u -> new Context(context.getSrcDeep(), context.getSrcUrl(), u, document.outerHtml()))
+                .collect(Collectors.toList());
     }
 }

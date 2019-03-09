@@ -24,4 +24,9 @@ public class CountUrlFilter implements Filter<Context, Long> {
     public Dataset<Context> filter(Dataset<Context> dataset) {
         return dataset.filter(context -> count.addAndGet(1) > maxCount);
     }
+
+    @Override
+    public Class<Long> configClass() {
+        return Long.class;
+    }
 }

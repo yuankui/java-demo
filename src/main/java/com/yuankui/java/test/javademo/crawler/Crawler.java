@@ -17,7 +17,7 @@ public class Crawler {
     public static void main(String[] args) {
         ApplicationContext context = new AnnotationConfigApplicationContext(CrawlerConfig.class);
         Crawler crawler = context.getBean(Crawler.class);
-        crawler.start("http://baidu.com");
+        crawler.start("https://jsoup.org/");
     }
 
     @Autowired
@@ -33,5 +33,6 @@ public class Crawler {
         String yaml = IOUtils.readAll(new InputStreamReader(stream));
         pipeline.init(yaml);
         pipeline.run();
+        System.out.println("pipeline = " + pipeline);
     }
 }

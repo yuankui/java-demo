@@ -1,7 +1,11 @@
 input:
-  type: MemQueueInput
+  type: UrlInput
 filter:
-  - type: FetchFilter
-  - type: CacheFilter
+  - type: PageGetterFilter
+  - type: UrlParserFilter
+  - type: DuplicatedUrlFilter
+  - type: DeepUrlFilter
+  - type: CountUrlFilter
+    config: 100
 output:
-  type: MemQueueOutput
+  type: UrlOutput
