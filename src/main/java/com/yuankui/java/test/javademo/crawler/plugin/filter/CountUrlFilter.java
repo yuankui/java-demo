@@ -22,7 +22,7 @@ public class CountUrlFilter implements Filter<Context, Long> {
 
     @Override
     public Dataset<Context> filter(Dataset<Context> dataset) {
-        return dataset.filter(context -> count.addAndGet(1) > maxCount);
+        return dataset.filter(context -> count.addAndGet(1) < maxCount);
     }
 
     @Override

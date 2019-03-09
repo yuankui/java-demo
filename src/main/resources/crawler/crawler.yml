@@ -5,6 +5,8 @@ filter:
   - type: UrlParserFilter
   - type: DuplicatedUrlFilter
   - type: DeepUrlFilter
+  - type: RegexUrlFilter
+    config: /member/\w+
   - type: CountUrlFilter
     config: 100
 output:
