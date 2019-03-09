@@ -1,5 +1,6 @@
 package com.yuankui.java.test.javademo.crawler;
 
+import com.yuankui.java.test.javademo.crawler.plugin.utils.PageCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

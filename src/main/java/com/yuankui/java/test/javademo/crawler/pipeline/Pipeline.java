@@ -33,7 +33,7 @@ public class Pipeline<T> {
     public void run() {
         Dataset<T> items = input.getItems();
         for (Filter filter : this.filters) {
-            items = items.flatMap(item -> filter.filter(item));
+            items = filter.filter(items);
         }
         items.foreach(output::output);
     }

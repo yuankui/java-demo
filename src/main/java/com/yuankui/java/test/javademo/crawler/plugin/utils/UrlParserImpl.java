@@ -1,4 +1,4 @@
-package com.yuankui.java.test.javademo.crawler;
+package com.yuankui.java.test.javademo.crawler.plugin.utils;
 
 import org.springframework.stereotype.Component;
 
