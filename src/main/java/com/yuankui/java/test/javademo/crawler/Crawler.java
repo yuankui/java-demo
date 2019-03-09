@@ -46,7 +46,10 @@ public class Crawler {
                             .allMatch(filter -> filter.valid(c)))
                     .collect(Collectors.toList());
             
-            childUrls.forEach(u -> urlQueue.add(u));
+            childUrls.forEach(u -> {
+                System.out.println(url.getDeep() + ":" + url.getUrl() + " => " + u.getUrl());
+                urlQueue.add(u);
+            });
         });
     }
 }
