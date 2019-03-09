@@ -9,6 +9,12 @@ filter:
     config: /member/\w+
   - type: CountUrlFilter
     config: 100
+  - type: GroovyFilter
+    config: |
+      return {
+        context ->
+          println("context: ${context.url}")
+      }
 output:
 #  - type: UrlOutput
   - type: ConsoleOutput
