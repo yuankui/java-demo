@@ -1,6 +1,7 @@
 package com.yuankui.java.test.javademo.crawler.plugin.filter;
 
 import com.yuankui.java.test.javademo.crawler.Context;
+import com.yuankui.java.test.javademo.crawler.Prototype;
 import com.yuankui.java.test.javademo.crawler.pipeline.Dataset;
 import com.yuankui.java.test.javademo.crawler.pipeline.Filter;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
+@Prototype
 @Slf4j
 public class PageGetterFilter implements Filter<Context, Object> {
     @Override
@@ -19,6 +21,7 @@ public class PageGetterFilter implements Filter<Context, Object> {
         return dataset.flatMap(context -> {
             Document document;
             try {
+                log.info("get url: {}", context.getSrcUrl());
                 document = Jsoup.connect(context.getSrcUrl()).get();
             } catch (IOException e) {
                 log.warn("get url failed: {}", context.getSrcUrl(), e);
@@ -27,7 +30,7 @@ public class PageGetterFilter implements Filter<Context, Object> {
             Elements elements = document.select("a");
             return elements.stream()
                     .map(e -> e.attr("href"))
-                    .map(u -> new Context(context.getSrcUrl(), u, document.outerHtml()))
+                    .map(u -> new Context(context.getSrcDeep(), context.getSrcUrl(), u, document.outerHtml()))
                     .collect(Collectors.toList());
         });
     }

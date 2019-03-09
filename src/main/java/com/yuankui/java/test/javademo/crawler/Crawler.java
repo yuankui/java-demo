@@ -1,14 +1,16 @@
 package com.yuankui.java.test.javademo.crawler;
 
-import com.yuankui.java.test.javademo.crawler.plugin.utils.PageCache;
+import com.alibaba.fastjson.util.IOUtils;
+import com.yuankui.java.test.javademo.crawler.pipeline.Pipeline;
+import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Queue;
 
 @Component
 public class Crawler {
@@ -19,38 +21,17 @@ public class Crawler {
     }
 
     @Autowired
-    private PageGetter getter;
-
+    private Queue<Context> queue;
+    
     @Autowired
-    private PageCache pageCache;
-
-    @Autowired
-    private UrlQueue urlQueue;
-
-    @Autowired
-    private List<UrlFilter> urlFilters;
-
+    private ObjectFactory<Pipeline<Context>> pipelineObjectFactory;
+    
     public void start(String start) {
-        urlQueue.add(new UrlWithDeep(start, 0));
-
-        urlQueue.onUrl(url -> {
-            Optional<Page> page = getter.get(url.getUrl());
-            if (!page.isPresent()) {
-                return;
-            }
-            pageCache.put(url.getUrl(), page.get());
-            List<UrlWithDeep> childUrls = page.get()
-                    .getChildUrls()
-                    .stream()
-                    .map(c -> new UrlWithDeep(c, url.getDeep() + 1))
-                    .filter(c -> urlFilters.stream()
-                            .allMatch(filter -> filter.valid(c)))
-                    .collect(Collectors.toList());
-            
-            childUrls.forEach(u -> {
-                System.out.println(url.getDeep() + ":" + url.getUrl() + " => " + u.getUrl());
-                urlQueue.add(u);
-            });
-        });
+        queue.add(new Context(0, start, null, null));
+        Pipeline<Context> pipeline = pipelineObjectFactory.getObject();
+        InputStream stream = Crawler.class.getClassLoader().getResourceAsStream("crawler/crawler.yml");
+        String yaml = IOUtils.readAll(new InputStreamReader(stream));
+        pipeline.init(yaml);
+        pipeline.run();
     }
 }
