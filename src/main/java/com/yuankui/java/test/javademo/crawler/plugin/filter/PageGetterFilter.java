@@ -12,6 +12,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Prototype
@@ -25,16 +26,26 @@ public class PageGetterFilter implements Filter<Context, Object> {
     private List<Context> crawl(Context context) {
         Document document;
         try {
-            log.info("get url: {}", context.getSrcUrl());
-            document = Jsoup.connect(context.getSrcUrl()).get();
+            log.info("get url: {}", context.getUrl());
+            document = Jsoup.connect(context.getUrl()).get();
         } catch (IOException e) {
-            log.warn("get url failed: {}", context.getSrcUrl(), e);
+            log.warn("get url failed: {}", context.getUrl(), e);
             return Collections.emptyList();
         }
         Elements elements = document.select("a");
+        AtomicInteger index = new AtomicInteger();
         return elements.stream()
                 .map(e -> e.attr("href"))
-                .map(u -> new Context(context.getSrcDeep(), context.getSrcUrl(), u, document.outerHtml()))
+                .map(u -> {
+                    Context c = new Context();
+                    c.setDeep(context.getDeep() + 1);
+                    c.setUrl(u);
+                    c.setSeq(index.addAndGet(1));
+                    c.setParentTotal(elements.size());
+                    c.setReferer(context.getUrl());
+                    c.setContent(document.outerHtml());
+                    return c;
+                })
                 .collect(Collectors.toList());
     }
 }

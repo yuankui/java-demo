@@ -27,7 +27,11 @@ public class Crawler {
     private ObjectFactory<Pipeline<Context>> pipelineObjectFactory;
     
     public void start(String start) {
-        queue.add(new Context(0, start, null, null));
+        Context context = new Context();
+        context.setUrl(start);
+        context.setDeep(0);
+        queue.add(context);
+        
         Pipeline<Context> pipeline = pipelineObjectFactory.getObject();
         InputStream stream = Crawler.class.getClassLoader().getResourceAsStream("crawler/crawler.yml");
         String yaml = IOUtils.readAll(new InputStreamReader(stream));

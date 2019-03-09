@@ -18,6 +18,7 @@ public class UrlOutput implements Output<Context, Object> {
 
     @Override
     public void output(Context context) {
-        queue.add(new Context(context.getSrcDeep() + 1, context.getTargetUrl(), null, null));
+        
+        queue.add(context.clone());
     }
 }

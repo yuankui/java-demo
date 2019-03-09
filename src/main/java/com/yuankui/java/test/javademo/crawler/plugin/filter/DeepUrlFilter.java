@@ -12,6 +12,6 @@ public class DeepUrlFilter implements Filter<Context, Object> {
 
     @Override
     public Dataset<Context> filter(Dataset<Context> dataset) {
-        return dataset.filter(context -> context.getSrcDeep() + 1 <= maxDeep);
+        return dataset.filter(context -> context.getDeep() <= maxDeep);
     }
 }

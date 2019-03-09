@@ -18,8 +18,8 @@ public class UrlParserFilter implements Filter<Context, Object> {
     @Override
     public Dataset<Context> filter(Dataset<Context> dataset) {
         return dataset.map(context -> {
-            String target = urlParser.parse(context.getSrcUrl(), context.getTargetUrl());
-            context.setTargetUrl(target);
+            String target = urlParser.parse(context.getReferer(), context.getUrl());
+            context.setUrl(target);
             return context;
         });
     }
