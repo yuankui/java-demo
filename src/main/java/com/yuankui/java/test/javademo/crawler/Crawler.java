@@ -17,7 +17,7 @@ public class Crawler {
     public static void main(String[] args) {
         ApplicationContext context = new AnnotationConfigApplicationContext(CrawlerConfig.class);
         Crawler crawler = context.getBean(Crawler.class);
-        crawler.start("https://jsoup.org/");
+        crawler.start("https://www.v2ex.com/");
     }
 
     @Autowired

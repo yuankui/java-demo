@@ -1,7 +1,6 @@
 package com.yuankui.java.test.javademo.crawler.pipeline;
 
 import com.yuankui.java.test.javademo.crawler.pipeline.obj.PipelineDO;
-import com.yuankui.java.test.javademo.crawler.pipeline.obj.PluginDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.Yaml;
@@ -16,25 +15,29 @@ public class Pipeline<T> {
 
     private Input<T, ?> input;
     private List<Filter> filters;
-    private Output<T, ?> output;
+    private List<Output> outputs;
     
     public void init(String yaml) {
         PipelineDO pipelineDO = new Yaml().loadAs(yaml, PipelineDO.class);
 
-        PluginDO outputDO = pipelineDO.getOutput();
+        
         input = pluginFactory.create(pipelineDO.getInput().getType(), pipelineDO.getInput().getConfig(), Input.class);
         filters = pipelineDO.getFilter()
                 .stream()
                 .map(f -> pluginFactory.create(f.getType(), f.getConfig(), Filter.class))
                 .collect(Collectors.toList());
-        output = pluginFactory.create(outputDO.getType(), outputDO.getConfig(), Output.class);
+        outputs = pipelineDO.getOutput()
+                .stream()
+                .map(o -> pluginFactory.create(o.getType(), o.getConfig(), Output.class))
+                .collect(Collectors.toList());
     }
     
     public void run() {
         Dataset<T> items = input.getItems();
+        
         for (Filter filter : this.filters) {
             items = filter.filter(items);
         }
-        items.foreach(output::output);
+        items.foreach(item -> outputs.forEach(o -> o.output(item)));
     }
 }

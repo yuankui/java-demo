@@ -8,5 +8,5 @@ import java.util.List;
 public class PipelineDO {
     private PluginDO input;
     private List<PluginDO> filter;
-    private PluginDO output;
+    private List<PluginDO> output;
 }

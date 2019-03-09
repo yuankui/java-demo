@@ -15,6 +15,6 @@ public class DuplicatedUrlFilter implements Filter<Context, Object> {
 
     @Override
     public Dataset<Context> filter(Dataset<Context> dataset) {
-        return dataset.filter(context -> pageCache.get(context.getTargetUrl()) != null);
+        return dataset.filter(context -> pageCache.get(context.getTargetUrl()) == null);
     }
 }

@@ -8,4 +8,6 @@ filter:
   - type: CountUrlFilter
     config: 100
 output:
-  type: UrlOutput
+#  - type: UrlOutput
+  - type: ConsoleOutput
+  

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Prototype
 public class DeepUrlFilter implements Filter<Context, Object> {
-    private int maxDeep = 10;
+    private int maxDeep = 2;
 
     @Override
     public Dataset<Context> filter(Dataset<Context> dataset) {
