@@ -3,7 +3,6 @@ package com.yuankui.java.test.javademo.crawler.pipeline;
 import com.yuankui.java.test.javademo.crawler.pipeline.obj.PipelineDO;
 import com.yuankui.java.test.javademo.crawler.pipeline.obj.PluginDO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.Yaml;
 
@@ -12,9 +11,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class Pipeline<T> {
-    @Autowired
-    private ApplicationContext context;
-    
     @Autowired
     private PluginFactory pluginFactory;
 
