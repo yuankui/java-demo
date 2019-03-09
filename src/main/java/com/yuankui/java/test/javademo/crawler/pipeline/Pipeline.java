@@ -31,7 +31,7 @@ public class Pipeline<T> {
     }
     
     public void run() {
-        RDD<T> items = input.getItems();
+        Dataset<T> items = input.getItems();
         for (Filter<T, ?> filter : this.filters) {
             items = items.flatMap(item -> filter.filter(item));
         }

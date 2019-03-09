@@ -8,26 +8,26 @@ import java.util.Iterator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class IteratorRDD<T> implements RDD<T> {
+public class IteratorDataset<T> implements Dataset<T> {
     private Iterator<T> iterator;
 
-    public IteratorRDD(Iterator<T> iterator) {
+    public IteratorDataset(Iterator<T> iterator) {
         this.iterator = iterator;
     }
 
     @Override
-    public RDD<T> map(Function<T, T> map) {
-        return new IteratorRDD<>(new MapIterator<>(map, iterator));
+    public Dataset<T> map(Function<T, T> map) {
+        return new IteratorDataset<>(new MapIterator<>(map, iterator));
     }
 
     @Override
-    public RDD<T> filter(Predicate<T> filter) {
-        return new IteratorRDD<>(new FilterIterator<>(filter, iterator));
+    public Dataset<T> filter(Predicate<T> filter) {
+        return new IteratorDataset<>(new FilterIterator<>(filter, iterator));
     }
 
     @Override
-    public RDD<T> flatMap(Function<T, Iterable<T>> flatMap) {
-        return new IteratorRDD<>(new FlatmapIterator<>(flatMap, iterator));
+    public Dataset<T> flatMap(Function<T, Iterable<T>> flatMap) {
+        return new IteratorDataset<>(new FlatmapIterator<>(flatMap, iterator));
     }
 
     @Override
