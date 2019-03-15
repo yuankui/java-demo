@@ -1,7 +1,5 @@
 package com.yuankui.java.test.javademo.groovy.xml
 
-import com.yuankui.java.test.javademo.groovy.xml.Xml
-
 def xml = new Xml()
 
 xml = xml.children() {

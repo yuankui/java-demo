@@ -28,7 +28,6 @@ public class Xml extends GroovyObjectSupport {
     Xml build(String name, Map<String, Object> props, Closure closure) {
         Xml xml = new Xml();
         xml._name = name;
-        xml._parent = this;
         xml._props = props;
         if(closure != null) {
             closure.setDelegate(xml);
