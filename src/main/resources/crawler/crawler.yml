@@ -13,7 +13,7 @@ filter:
     config: |
       return {
         context ->
-          if (context.url.startswith('')) {
+          if (context.url.startsWith('')) {
             return false
           }
       }
