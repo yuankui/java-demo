@@ -30,6 +30,7 @@ public class Xml extends GroovyObjectSupport {
         xml._name = name;
         xml._props = props;
         if(closure != null) {
+            closure.setResolveStrategy(Closure.DELEGATE_FIRST);
             closure.setDelegate(xml);
             closure.call();
         }
@@ -72,6 +73,12 @@ public class Xml extends GroovyObjectSupport {
                 element.setAttribute(k, String.valueOf(v));
             });
         }
+
+        if (_children != null) {
+            _children.stream()
+                    .map(c -> c.toDoc(document))
+                    .forEach(element::appendChild);
+        }
         return element;
     }
     public String toXml() throws ParserConfigurationException, TransformerException {
@@ -80,11 +87,7 @@ public class Xml extends GroovyObjectSupport {
         Document document = builder.newDocument();
         Element root = toDoc(document);
         document.appendChild(root);
-        if (_children != null) {
-            _children.stream()
-                    .map(c -> c.toDoc(document))
-                    .forEach(root::appendChild);
-        }
+        
 
         TransformerFactory tff = TransformerFactory.newInstance();
         Transformer tf = tff.newTransformer();
