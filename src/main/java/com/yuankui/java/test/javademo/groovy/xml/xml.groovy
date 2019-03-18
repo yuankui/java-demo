@@ -6,7 +6,9 @@ xml = xml.children() {
     child([name: "yuankui1"]) {
         name([age: 12])
     }
-    child([name: "yuankui2"])
+    child([name: "yuankui2"]) {
+        $str("hello kitty")
+    }
     child([name: "yuankui3"])
 }
 
