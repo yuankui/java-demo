@@ -9,6 +9,9 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
+/**
+ * https://netty.io/wiki/user-guide-for-4.x.html#wiki-h3-4
+ */
 public class NettyServer {
     private int port;
 
