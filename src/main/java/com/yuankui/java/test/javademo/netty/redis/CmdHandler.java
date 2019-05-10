@@ -1,9 +1,11 @@
 package com.yuankui.java.test.javademo.netty.redis;
 
+import com.yuankui.java.test.javademo.crawler.Prototype;
 import com.yuankui.java.test.javademo.netty.redis.obj.RedisCmd;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
+@Prototype
 public class CmdHandler extends ChannelInboundHandlerAdapter { // (1)
 
     @Override

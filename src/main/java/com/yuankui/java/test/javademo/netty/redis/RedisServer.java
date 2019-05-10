@@ -9,14 +9,23 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.LineBasedFrameDecoder;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RedisServer {
     private int port;
 
-    public RedisServer(int port) {
+    public void init(int port) {
         this.port = port;
     }
 
+    @Autowired
+    private ObjectFactory<CmdDecoder> cmdDecoderObjectFactory;
+    @Autowired
+    private ObjectFactory<CmdHandler> cmdHandlerObjectFactory;
+    
     public void run() throws Exception {
         EventLoopGroup bossGroup = new NioEventLoopGroup(); // (1)
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -28,9 +37,9 @@ public class RedisServer {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
                             ch.pipeline().addLast(
-                                    new LineBasedFrameDecoder(100), 
-                                    new CmdDecoder(), 
-                                    new CmdHandler());
+                                    new LineBasedFrameDecoder(100),
+                                    cmdDecoderObjectFactory.getObject(), 
+                                    cmdHandlerObjectFactory.getObject());
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)          // (5)
@@ -47,14 +56,5 @@ public class RedisServer {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
         }
-    }
-
-    public static void main(String[] args) throws Exception {
-        int port = 6380;
-        if (args.length > 0) {
-            port = Integer.parseInt(args[0]);
-        }
-
-        new RedisServer(port).run();
     }
 }

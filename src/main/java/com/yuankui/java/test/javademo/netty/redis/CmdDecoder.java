@@ -1,5 +1,6 @@
 package com.yuankui.java.test.javademo.netty.redis;
 
+import com.yuankui.java.test.javademo.crawler.Prototype;
 import com.yuankui.java.test.javademo.netty.redis.obj.RedisCmd;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -8,6 +9,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
+@Prototype
 public class CmdDecoder extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
