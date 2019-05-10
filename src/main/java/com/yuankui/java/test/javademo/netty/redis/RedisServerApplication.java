@@ -2,9 +2,11 @@ package com.yuankui.java.test.javademo.netty.redis;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@ComponentScan
 public class RedisServerApplication {
     public static void main(String[] args) throws Exception {
         ApplicationContext context = new AnnotationConfigApplicationContext(RedisServerApplication.class);

@@ -7,13 +7,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class Cache {
-    private Map<String, Object> cache = new ConcurrentHashMap<>();
+    private Map<String, byte[]> cache = new ConcurrentHashMap<>();
     
-    public void set(String key, Object value) {
+    public void set(String key, byte[] value) {
         cache.put(key, value);
     }
     
-    public Object get(String key) {
-        return cache.get(key).toString();
+    public byte[] get(String key) {
+        return cache.get(key);
     }
 }

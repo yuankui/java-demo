@@ -8,7 +8,9 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.LineBasedFrameDecoder;
+import io.netty.handler.codec.redis.RedisArrayAggregator;
+import io.netty.handler.codec.redis.RedisDecoder;
+import io.netty.handler.codec.redis.RedisEncoder;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,9 +22,7 @@ public class RedisServer {
     public void init(int port) {
         this.port = port;
     }
-
-    @Autowired
-    private ObjectFactory<CmdDecoder> cmdDecoderObjectFactory;
+    
     @Autowired
     private ObjectFactory<CmdHandler> cmdHandlerObjectFactory;
     
@@ -37,8 +37,9 @@ public class RedisServer {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
                             ch.pipeline().addLast(
-                                    new LineBasedFrameDecoder(100),
-                                    cmdDecoderObjectFactory.getObject(), 
+                                    new RedisDecoder(),
+                                    new RedisArrayAggregator(),
+                                    new RedisEncoder(),
                                     cmdHandlerObjectFactory.getObject());
                         }
                     })
