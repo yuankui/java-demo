@@ -1,18 +1,15 @@
-package com.yuankui.java.test.javademo.netty;
+package com.yuankui.java.test.javademo.netty.redis;
 
-import io.netty.buffer.ByteBuf;
+import com.yuankui.java.test.javademo.netty.redis.obj.RedisCmd;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
-import java.nio.charset.Charset;
-
-public class DiscardServerHandler extends ChannelInboundHandlerAdapter { // (1)
+public class CmdHandler extends ChannelInboundHandlerAdapter { // (1)
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        ByteBuf byteBuf = (ByteBuf) msg;
-        System.out.println("msg = " + byteBuf.toString(Charset.forName("utf-8")));
-        byteBuf.release();
+        RedisCmd cmd = (RedisCmd) msg;
+        System.out.println("cmd = " + cmd);
     }
 
     @Override

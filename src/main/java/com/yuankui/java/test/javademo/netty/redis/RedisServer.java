@@ -1,4 +1,4 @@
-package com.yuankui.java.test.javademo.netty;
+package com.yuankui.java.test.javademo.netty.redis;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -10,13 +10,10 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.LineBasedFrameDecoder;
 
-/**
- * https://netty.io/wiki/user-guide-for-4.x.html#wiki-h3-4
- */
-public class NettyServer {
+public class RedisServer {
     private int port;
 
-    public NettyServer(int port) {
+    public RedisServer(int port) {
         this.port = port;
     }
 
@@ -30,7 +27,10 @@ public class NettyServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() { // (4)
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new LineBasedFrameDecoder(1000), new DiscardServerHandler());
+                            ch.pipeline().addLast(
+                                    new LineBasedFrameDecoder(100), 
+                                    new CmdDecoder(), 
+                                    new CmdHandler());
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)          // (5)
@@ -50,11 +50,11 @@ public class NettyServer {
     }
 
     public static void main(String[] args) throws Exception {
-        int port = 8080;
+        int port = 6380;
         if (args.length > 0) {
             port = Integer.parseInt(args[0]);
         }
 
-        new NettyServer(port).run();
+        new RedisServer(port).run();
     }
 }
