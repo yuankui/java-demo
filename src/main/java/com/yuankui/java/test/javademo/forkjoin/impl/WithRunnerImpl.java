@@ -3,6 +3,7 @@ package com.yuankui.java.test.javademo.forkjoin.impl;
 import com.yuankui.java.test.javademo.forkjoin.WithRunner;
 
 import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveTask;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -38,7 +39,7 @@ public class WithRunnerImpl<T, R> implements WithRunner<R> {
         private T source;
         Function<Stream<R>, R> merger;
 
-        public Task(T source, Function<Stream<R>, R> merger) {
+        Task(T source, Function<Stream<R>, R> merger) {
             this.source = source;
             this.merger = merger;
         }
@@ -51,8 +52,8 @@ public class WithRunnerImpl<T, R> implements WithRunner<R> {
 
             Stream<R> rStream = forkFunc.apply(source)
                     .map(s -> new Task(s, merger))
-                    .map(s -> s.fork())
-                    .map(f -> f.join());
+                    .map(ForkJoinTask::fork)
+                    .map(ForkJoinTask::join);
             return merger.apply(rStream);
         }
     }
