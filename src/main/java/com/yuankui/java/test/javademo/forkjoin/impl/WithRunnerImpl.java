@@ -14,19 +14,19 @@ import java.util.stream.Stream;
 public class WithRunnerImpl<T, R> implements WithRunner<R> {
     private final Supplier<T> source;
     private final Function<T, Stream<T>> forkFunc;
-    private final Predicate<T> predicate;
+    private final Predicate<T> util;
     private final Function<T, R> runner;
     private final ForkJoinPool pool;
 
     public WithRunnerImpl(ForkJoinPool pool,
                           Supplier<T> source,
                           Function<T, Stream<T>> forkFunc,
-                          Predicate<T> predicate,
+                          Predicate<T> util,
                           Function<T, R> runner) {
         this.pool = pool;
         this.source = source;
         this.forkFunc = forkFunc;
-        this.predicate = predicate;
+        this.util = util;
         this.runner = runner;
     }
 
@@ -48,7 +48,7 @@ public class WithRunnerImpl<T, R> implements WithRunner<R> {
 
         @Override
         protected R compute() {
-            if (predicate.test(source)) {
+            if (util.test(source)) {
                 return runner.apply(source);
             }
 
