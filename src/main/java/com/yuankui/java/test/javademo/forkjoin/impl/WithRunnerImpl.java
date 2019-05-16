@@ -2,6 +2,7 @@ package com.yuankui.java.test.javademo.forkjoin.impl;
 
 import com.yuankui.java.test.javademo.forkjoin.WithRunner;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveTask;
@@ -30,9 +31,10 @@ public class WithRunnerImpl<T, R> implements WithRunner<R> {
     }
 
     @Override
-    public R merge(Function<Stream<R>, R> merger) {
-        pool.execute(new Task(source.get(), merger));
-        return null;
+    public R join(Function<Stream<R>, R> joiner) throws ExecutionException, InterruptedException {
+        Task task = new Task(source.get(), joiner);
+        pool.execute(task);
+        return task.get();
     }
     
     class Task extends RecursiveTask<R> {
