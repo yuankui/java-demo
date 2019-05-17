@@ -14,5 +14,7 @@ public class Test {
         
         new Thread(future).start();
         String s = future.get(1, TimeUnit.SECONDS);
+        
+        
     }
 }
