@@ -2,15 +2,23 @@ package com.yuankui.java.test.javademo.flux;
 
 import reactor.core.publisher.Flux;
 
-public class FluxTest {
-    public static void main(String[] args) {
-        Flux<Integer> ints = Flux.range(1, 4)
-                .map(i -> {
-                    if (i <= 3) return i;
-                    throw new RuntimeException("Got to 4");
-                });
-        ints.subscribe(System.out::println,
-                error -> System.err.println("Error: " + error));
+import java.util.List;
+import java.util.Optional;
 
+public class FluxTest {
+    public static void main(String[] args) throws InterruptedException {
+        Flux<Byte> bytes = Flux.just(1, 2, 3, 4).map(Integer::byteValue);
+
+        Optional<List<Integer>> integers = bytes.buffer(4)
+                .map(FluxTest::mergeBytesToInt)
+                .collectList()
+                .blockOptional();
+
+        System.out.println("integers = " + integers);
+    }
+    
+    private static int mergeBytesToInt(List<Byte> bytes) {
+        return bytes.stream().mapToInt(Byte::intValue)
+                .reduce(0, (a, b) -> a << 8 + b);
     }
 }
