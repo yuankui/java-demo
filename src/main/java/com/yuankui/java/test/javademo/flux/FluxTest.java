@@ -9,7 +9,8 @@ public class FluxTest {
         Flux<Byte> bytes = Flux.fromStream("1234567890".chars().boxed())
                 .map(Integer::byteValue);
 
-        bytes.buffer(4)
+        bytes.limitRate(100)
+                .buffer(4)
                 .map(FluxTest::mergeBytesToInt)
                 .subscribe(list -> System.out.println("int = " + list));
     }
