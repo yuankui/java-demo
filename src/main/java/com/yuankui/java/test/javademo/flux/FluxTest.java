@@ -1,6 +1,7 @@
 package com.yuankui.java.test.javademo.flux;
 
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import reactor.core.publisher.SynchronousSink;
 
 import java.util.ArrayList;
@@ -16,6 +17,9 @@ public class FluxTest {
                 .map(String::length)
                 .reduce(Math::max)
                 .block();
+
+        Mono<Mono<String>> mono = null;
+        Mono<String> handle = mono.handle((stringMono, synchronousSink) -> stringMono.subscribe(synchronousSink::next));
 
         System.out.println("max = " + max);
     }
