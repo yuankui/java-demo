@@ -23,6 +23,10 @@ public class FluxTest {
 
         System.out.println("max = " + max);
     }
+    
+    private static <T> Mono<T> ifThen(Mono<Boolean> predicate,  Mono<T> other) {
+        return null;
+    }
 
     private static void test1() {
         Flux<Byte> bytes = Flux.fromStream("1234567890".chars().boxed())
