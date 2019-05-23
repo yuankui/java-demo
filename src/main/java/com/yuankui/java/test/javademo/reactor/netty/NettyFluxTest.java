@@ -1,4 +1,4 @@
-package com.yuankui.java.test.javademo.flux.netty;
+package com.yuankui.java.test.javademo.reactor.netty;
 
 import reactor.core.publisher.Mono;
 import reactor.netty.DisposableServer;

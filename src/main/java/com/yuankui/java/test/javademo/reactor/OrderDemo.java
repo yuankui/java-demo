@@ -1,7 +1,7 @@
-package com.yuankui.java.test.javademo.flux;
+package com.yuankui.java.test.javademo.reactor;
 
-import com.yuankui.java.test.javademo.flux.obj.Item;
-import com.yuankui.java.test.javademo.flux.obj.Order;
+import com.yuankui.java.test.javademo.reactor.obj.Item;
+import com.yuankui.java.test.javademo.reactor.obj.Order;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

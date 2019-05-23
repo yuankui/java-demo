@@ -1,4 +1,4 @@
-package com.yuankui.java.test.javademo.flux.obj;
+package com.yuankui.java.test.javademo.reactor.obj;
 
 import lombok.Data;
 
