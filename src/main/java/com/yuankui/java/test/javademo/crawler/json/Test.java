@@ -22,7 +22,8 @@ public class Test {
                 .flatMap(Flux::fromIterable)
                 .map(obj -> (JSONObject) obj)
                 .map(obj -> obj.getString("thumb_src"))
-                .doOnError(e -> {})
+                .doOnError(e -> {
+                })
                 .subscribe(System.out::println);
     }
 }
