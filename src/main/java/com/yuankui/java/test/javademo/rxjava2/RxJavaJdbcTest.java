@@ -2,6 +2,11 @@ package com.yuankui.java.test.javademo.rxjava2;
 
 import com.github.davidmoten.rx.jdbc.Database;
 import retrofit2.Call;
+import rx.Observable;
+import rx.observables.BlockingObservable;
+
+import java.util.Arrays;
+import java.util.Map;
 
 public class RxJavaJdbcTest {
     public static void main(String[] args) {
@@ -18,7 +23,6 @@ public class RxJavaJdbcTest {
                 .forEach(o -> {
                     System.out.println("o = " + o);
                 });
-
 
         Call<String> c = null;
     }

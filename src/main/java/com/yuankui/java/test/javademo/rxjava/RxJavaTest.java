@@ -2,21 +2,19 @@ package com.yuankui.java.test.javademo.rxjava;
 
 import rx.Observable;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class RxJavaTest {
     public static void main(String[] args) {
-        Observable.range(1, 100)
-                .map(i -> {
-                    return i.toString();
-                })
-                .toMap(k -> k)
-                .toSingle()
+
+        Map<String, Integer> map = Observable.from(Arrays.asList("hello", "kitty"))
+                .toMap(k -> k, k -> k.length())
                 .toBlocking()
-                .value();
+                .first();
 
-        String str;
-
+        System.out.println("map = " + map);
     }
 
     private static String doIt(List<Integer> list) {
