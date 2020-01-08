@@ -5,15 +5,12 @@ import rx.Observable;
 import java.util.concurrent.TimeUnit;
 
 public class RxJavaTest {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
 
-        Observable.interval(500, TimeUnit.MILLISECONDS)
-                .buffer(3)
-                .subscribe(list -> {
-                    System.out.println("list = " + list);
+        Observable.range(1, 100)
+                .buffer(1, 2)
+                .subscribe(o -> {
+                    System.out.println("o = " + o);
                 });
-
-        
-        TimeUnit.SECONDS.sleep(20);
     }
 }
