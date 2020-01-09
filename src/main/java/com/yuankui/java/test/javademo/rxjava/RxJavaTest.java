@@ -1,19 +1,16 @@
 package com.yuankui.java.test.javademo.rxjava;
 
+import org.apache.commons.lang3.tuple.Triple;
 import rx.Observable;
-
-import java.util.concurrent.TimeUnit;
 
 public class RxJavaTest {
     public static void main(String[] args) throws InterruptedException {
-
-        Observable.interval(500, TimeUnit.MILLISECONDS)
-                .buffer(3)
-                .subscribe(list -> {
-                    System.out.println("list = " + list);
+        Observable.range(1, 10)
+                .scan(Integer::sum)
+                .subscribe(integer -> {
+                    System.out.println("integer = " + integer);
                 });
 
-        
-        TimeUnit.SECONDS.sleep(20);
+        Triple<Integer, String, Integer> triple = Triple.of(1, "", 13);
     }
 }
