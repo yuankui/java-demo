@@ -1,7 +1,7 @@
 package com.yuankui.java.test.javademo.rxjava;
 
 import rx.Observable;
-import rx.functions.Func1;
+import rx.Subscriber;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,20 +9,27 @@ import java.util.List;
 public class RxJavaTest {
     public static void main(String[] args) throws InterruptedException {
         Observable.range(1, 10)
-                .flatMap(new Func1<Integer, Observable<List<Integer>>>() {
+                .lift((Observable.Operator<List<Integer>, Integer>) subscriber -> new Subscriber<Integer>() {
                     private List<Integer> ints = new ArrayList<>();
+                    @Override
+                    public void onCompleted() {
+                        if (!ints.isEmpty()) {
+                            subscriber.onNext(ints);
+                        }
+                        subscriber.onCompleted();
+                    }
 
                     @Override
-                    public Observable<List<Integer>> call(Integer integer) {
+                    public void onError(Throwable e) {
+                        subscriber.onError(e);
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
                         ints.add(integer);
                         if (ints.size() == 3) {
-                            try {
-                                return Observable.just(ints);
-                            } finally {
-                                this.ints = new ArrayList<>();
-                            }
-                        } else {
-                            return Observable.empty();
+                            subscriber.onNext(ints);
+                            ints = new ArrayList<>();
                         }
                     }
                 })
