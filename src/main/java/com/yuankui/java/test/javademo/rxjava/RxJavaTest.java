@@ -1,38 +1,22 @@
 package com.yuankui.java.test.javademo.rxjava;
 
 import rx.Observable;
-import rx.Subscriber;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class RxJavaTest {
     public static void main(String[] args) throws InterruptedException {
-        Observable.range(1, 10)
-                .lift((Observable.Operator<List<Integer>, Integer>) subscriber -> new Subscriber<Integer>() {
-                    private List<Integer> ints = new ArrayList<>();
-                    @Override
-                    public void onCompleted() {
-                        if (!ints.isEmpty()) {
-                            subscriber.onNext(ints);
-                        }
-                        subscriber.onCompleted();
-                    }
+        Observable<Long> observable = Observable.interval(1, TimeUnit.SECONDS)
+                .publish()
+                .refCount();
 
-                    @Override
-                    public void onError(Throwable e) {
-                        subscriber.onError(e);
-                    }
 
-                    @Override
-                    public void onNext(Integer integer) {
-                        ints.add(integer);
-                        if (ints.size() == 3) {
-                            subscriber.onNext(ints);
-                            ints = new ArrayList<>();
-                        }
-                    }
-                })
-                .subscribe(i -> System.out.println("i = " + i));
+        observable.subscribe(a -> System.out.println("1 = " + a));
+
+        TimeUnit.SECONDS.sleep(5);
+
+        observable.subscribe(a -> System.out.println("2 = " + a));
+        
+        TimeUnit.SECONDS.sleep(5);
     }
 }
