@@ -1,17 +1,26 @@
 package com.yuankui.java.test.javademo.rxjava;
 
-import rx.Observable;
+import rx.subjects.PublishSubject;
 
 import java.util.concurrent.TimeUnit;
 
 public class RxJavaTest {
     public static void main(String[] args) throws InterruptedException {
-        Observable.interval(1, TimeUnit.SECONDS)
-                .doOnNext(i -> System.out.println("in = " + System.currentTimeMillis() / 1000))
-                .delay(l -> Observable.timer(1, TimeUnit.SECONDS))
-                .doOnNext(i -> System.out.println("out = " + System.currentTimeMillis() / 1000))
-                .subscribe(i -> System.out.println("i = " + i));
+        PublishSubject<String> subject = PublishSubject.create();
+
+        subject.map(s -> s + ":" + s.length())
+                .subscribe(a -> System.out.println("a = " + a));
         
-        TimeUnit.SECONDS.sleep(10);
+        subject.onNext("hello1");
+        subject.onNext("hello2");
+        subject.onNext("hello3");
+        subject.onNext("hello4");
+
+        TimeUnit.SECONDS.sleep(5);
+        
+        
+        subject.onCompleted();
+        
+        TimeUnit.SECONDS.sleep(4);
     }
 }
