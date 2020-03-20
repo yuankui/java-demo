@@ -104,19 +104,24 @@ a = """
 
 def json = JSON.parseObject(a)
 
-[json]
-        .collectMany {
-            if (it.msgType != 'PRODUCT_SAVE_UPDATE') {
-                return []
+1.upto(10) {
+    def start = System.nanoTime()
+    [json]
+            .collectMany {
+                if (it.msgType != 'PRODUCT_SAVE_UPDATE') {
+                    return []
+                }
+                if (it.msg == null || it.msg.wmShoppingCartPoiAndProductsList == null) {
+                    return []
+                }
+                return it.msg.wmShoppingCartPoiAndProductsList
             }
-            if (it.msg == null || it.msg.wmShoppingCartPoiAndProductsList == null) {
-                return []
+            .collectMany {
+                return it.wmShoppingCartProductMap.values()
             }
-            return it.msg.wmShoppingCartPoiAndProductsList
-        }
-        .collectMany {
-            return it.wmShoppingCartProductMap.values()
-        }
-        .each {
-            println([skuId: it.skuId, userId: it.userId, wmPoiId: it.wmPoiId])
-        }
+            .each {
+                [skuId: it.skuId, userId: it.userId, wmPoiId: it.wmPoiId]
+            }
+    
+    println("cost: ${System.nanoTime() - start}")
+}
