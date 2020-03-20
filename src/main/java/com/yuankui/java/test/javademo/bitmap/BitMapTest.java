@@ -2,26 +2,41 @@ package com.yuankui.java.test.javademo.bitmap;
 
 import org.roaringbitmap.RoaringBitmap;
 
-public class BitMapTest {
-    public static void main(String[] args) {
-        RoaringBitmap rr = RoaringBitmap.bitmapOf(1,2,3,1000);
-        RoaringBitmap rr2 = new RoaringBitmap();
-        rr2.add(4000L,4255L);
-        rr.select(3); // would return the third value or 1000
-        rr.rank(2); // would return the rank of 2, which is index 1
-        rr.contains(1000); // will return true
-        rr.contains(7); // will return false
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.Random;
+import java.util.Spliterators;
+import java.util.stream.StreamSupport;
 
-        RoaringBitmap rror = RoaringBitmap.or(rr, rr2);// new bitmap
-        rr.or(rr2); //in-place computation
-        boolean equals = rror.equals(rr);// true
-        if(!equals) throw new RuntimeException("bug");
-        // number of values stored?
-        long cardinality = rr.getLongCardinality();
-        System.out.println(cardinality);
-        // a "forEach" is faster than this loop, but a loop is possible:
-        for(int i : rr) {
-            System.out.println(i);
+public class BitMapTest {
+    public static void main(String[] args) throws IOException {
+        RoaringBitmap rr = RoaringBitmap.bitmapOf();
+
+        Random random = new Random();
+        for (int i = 0; i < 10000; i++) {
+            rr.add(random.nextInt());
         }
+
+        System.out.println("rr = " + rr);
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        DataOutputStream dos = new DataOutputStream(bos);
+
+        rr.serialize(dos);
+        dos.close();
+        bos.close();
+
+        byte[] bytes = bos.toByteArray();
+
+        System.out.println("bytes = " + bytes.length);
+
+
+        long count = StreamSupport.stream(Spliterators
+                .spliteratorUnknownSize(rr.iterator(), 0), false)
+                .count();
+
+        System.out.println("count = " + count);
     }
 }
