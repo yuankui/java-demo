@@ -2,41 +2,29 @@ package com.yuankui.java.test.javademo.bitmap;
 
 import org.roaringbitmap.RoaringBitmap;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.Random;
-import java.util.Spliterators;
-import java.util.stream.StreamSupport;
 
 public class BitMapTest {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         RoaringBitmap rr = RoaringBitmap.bitmapOf();
 
         Random random = new Random();
-        for (int i = 0; i < 10000; i++) {
-            rr.add(random.nextInt());
+        for (int i = 0; i < 1000000; i++) {
+            rr.add(random.nextInt(1000000));
+        }
+        System.out.println("rr.serializedSizeInBytes() = " + rr.serializedSizeInBytes());
+
+
+        RoaringBitmap rr2 = new RoaringBitmap();
+        for (Integer integer : rr) {
+            rr2.add(integer + 100000000);
         }
 
-        System.out.println("rr = " + rr);
+        System.out.println("rr2.serializedSizeInBytes() = " + rr2.serializedSizeInBytes());
+        
+        RoaringBitmap rr3 = new RoaringBitmap(rr.toMutableRoaringBitmap());
+        rr3.or(rr2);
 
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        DataOutputStream dos = new DataOutputStream(bos);
-
-        rr.serialize(dos);
-        dos.close();
-        bos.close();
-
-        byte[] bytes = bos.toByteArray();
-
-        System.out.println("bytes = " + bytes.length);
-
-
-        long count = StreamSupport.stream(Spliterators
-                .spliteratorUnknownSize(rr.iterator(), 0), false)
-                .count();
-
-        System.out.println("count = " + count);
+        System.out.println("rr3.serializedSizeInBytes() = " + rr3.serializedSizeInBytes());
     }
 }
