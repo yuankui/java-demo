@@ -1,26 +1,20 @@
 package com.yuankui.java.test.javademo.rxjava;
 
+import io.reactivex.Flowable;
 import rx.subjects.PublishSubject;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class RxJavaTest {
     public static void main(String[] args) throws InterruptedException {
-        PublishSubject<String> subject = PublishSubject.create();
+        List<String> list = Arrays.asList("hello", "Kitty", "world");
 
-        subject.map(s -> s + ":" + s.length())
-                .subscribe(a -> System.out.println("a = " + a));
-        
-        subject.onNext("hello1");
-        subject.onNext("hello2");
-        subject.onNext("hello3");
-        subject.onNext("hello4");
-
-        TimeUnit.SECONDS.sleep(5);
-        
-        
-        subject.onCompleted();
-        
-        TimeUnit.SECONDS.sleep(4);
+        List<String> newList = Flowable.fromIterable(list)
+                .filter(s -> s.startsWith("h"))
+                .map(s -> s + "subfix")
+                .toList()
+                .blockingGet();
     }
 }
