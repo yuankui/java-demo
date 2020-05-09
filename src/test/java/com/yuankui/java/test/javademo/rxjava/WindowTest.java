@@ -4,6 +4,7 @@ import io.reactivex.Flowable;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class WindowTest {
@@ -31,6 +32,13 @@ public class WindowTest {
                     System.out.println(pair.getKey() + " => " + pair.getValue());
                 });
     }
-    
-    
+
+    @Test
+    public void test() {
+        Flowable<List<Integer>> listFlowable = Flowable.range(1, 100)
+                .window(3)
+                .flatMap(integerFlowable -> integerFlowable.toList().toFlowable());
+
+        listFlowable.subscribe(System.out::println);
+    }
 }
