@@ -9,9 +9,8 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<scala.version>2.11.8</scala.version>
-		<spark.version>1.6.2</spark.version>
 		<flink.version>1.8.0</flink.version>
+		<flink.version>1.6.2</flink.version>
 	</properties>
 
 	<dependencyManagement>
@@ -112,18 +111,8 @@
 			<version>5.3.1.201904271842-r</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.spark</groupId>
-			<artifactId>spark-core_2.10</artifactId>
-			<version>${spark.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.scala-lang</groupId>
-			<artifactId>scala-compiler</artifactId>
-			<version>2.11.8</version>
 		</dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.beam/beam-sdks-java-core -->
         <dependency>
@@ -195,6 +184,36 @@
 		<dependency>
 			<groupId>org.yaml</groupId>
 			<artifactId>snakeyaml</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.flink</groupId>
+			<artifactId>flink-streaming-java_2.11</artifactId>
+			<version>${flink.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.flink</groupId>
+			<artifactId>flink-table_2.11</artifactId>
+			<version>${flink.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.flink</groupId>
+			<artifactId>flink-statebackend-rocksdb_2.11</artifactId>
+			<version>${flink.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.flink</groupId>
+			<artifactId>flink-metrics-dropwizard</artifactId>
+			<version>${flink.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.meituan.flink</groupId>
+			<artifactId>mtflink-kafka-utils</artifactId>
+			<version>1.6.2_0.0.11</version>
 		</dependency>
 	</dependencies>
 
