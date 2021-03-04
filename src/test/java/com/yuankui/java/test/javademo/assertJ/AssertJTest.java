@@ -1,16 +1,29 @@
 package com.yuankui.java.test.javademo.assertJ;
 
-import org.assertj.core.api.Assertions;
-import static org.assertj.core.api.Assertions.*;
+import com.google.common.hash.BloomFilter;
+import com.google.common.hash.Funnels;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 public class AssertJTest {
     @Test
     public void test() {
-        Assertions.assertThat(Arrays.asList(1, 2))
-                .size().isGreaterThan(10);
+
+        BloomFilter<Integer> bloomFilter = BloomFilter.create(Funnels.integerFunnel(),
+                2000000,
+                0.01);
+
+        int count = 0;
+
+        System.out.println(System.currentTimeMillis());
+        for (int i = 0; i < 20000000; i++) {
+//            bitmap.add(random.nextInt(Integer.MAX_VALUE));
+            if (!bloomFilter.test(i)) {
+                count += 1;
+                bloomFilter.put(i);
+            }
+        }
+        System.out.println(System.currentTimeMillis());
+
 
     }
 }
